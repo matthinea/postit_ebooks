@@ -7,7 +7,6 @@ require 'dotenv'
 class MyBot < Ebooks::Bot
   # Configuration here applies to all MyBots
   def configure
-    Dotenv.load
     # Consumer details come from registering an app at https://dev.twitter.com/
     # Once you have consumer details, use "ebooks auth" for new access tokens
     self.consumer_key = ENV['CONSUMER_KEY'] # Your app consumer key
@@ -21,9 +20,11 @@ class MyBot < Ebooks::Bot
   end
 
   def on_startup
+    Dotenv.load
+
     model = Ebooks::Model.load("model/postitbreakup.model")
 
-    scheduler.every '2h' do
+    scheduler.every '1h' do
       new_tweet = model.make_statement(140)
       tweet(new_tweet)
       # Tweet something every 24 hours
@@ -66,6 +67,6 @@ end
 
 # Make a MyBot and attach it to an account
 MyBot.new("postit_ebooks") do |bot|
-  bot.access_token = "" # Token connecting the app to this account
-  bot.access_token_secret = "" # Secret connecting the app to this account
+  bot.access_token = ENV['TOKEN'] # Token connecting the app to this account
+  bot.access_token_secret = ENV['TOKEN_SECRET'] # Secret connecting the app to this account
 end

@@ -10,8 +10,8 @@ class MyBot < Ebooks::Bot
     Dotenv.load
     # Consumer details come from registering an app at https://dev.twitter.com/
     # Once you have consumer details, use "ebooks auth" for new access tokens
-    self.consumer_key = 'Xf2hRH5d7Gkhnpi2G42glKSmp' # Your app consumer key
-    self.consumer_secret = '5EMGae08DDz2ytxBHaNSyuDFo3C7d2N4F18DTUKKDfN21sSHgV' # Your app consumer secret
+    self.consumer_key = ENV['CONSUMER_KEY'] # Your app consumer key
+    self.consumer_secret = ENV['CONSUMER_SECRET'] # Your app consumer secret
 
     # Users to block instead of interacting with
     self.blacklist = ['tnietzschequote']

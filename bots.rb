@@ -1,5 +1,4 @@
 require 'twitter_ebooks'
-require 'dotenv'
 
 # This is an example bot definition with event handlers commented out
 # You can define and instantiate as many bots as you like
@@ -9,8 +8,8 @@ class MyBot < Ebooks::Bot
   def configure
     # Consumer details come from registering an app at https://dev.twitter.com/
     # Once you have consumer details, use "ebooks auth" for new access tokens
-    self.consumer_key = "Xf2hRH5d7Gkhnpi2G42glKSmp" # Your app consumer key
-    self.consumer_secret = "5EMGae08DDz2ytxBHaNSyuDFo3C7d2N4F18DTUKKDfN21sSHgV" # Your app consumer secret
+    self.consumer_key = ENV["CONSUMER_KEY"] # Your app consumer key
+    self.consumer_secret = ENV["CONSUMER_SECRET"] # Your app consumer secret
 
     # Users to block instead of interacting with
     self.blacklist = ['tnietzschequote']
@@ -20,11 +19,10 @@ class MyBot < Ebooks::Bot
   end
 
   def on_startup
-    Dotenv.load
 
     model = Ebooks::Model.load("model/postitbreakup.model")
 
-    scheduler.every '1h' do
+    scheduler.cron '0 0 * * *' do
       new_tweet = model.make_statement(140)
       tweet(new_tweet)
       # Tweet something every 24 hours
@@ -67,6 +65,6 @@ end
 
 # Make a MyBot and attach it to an account
 MyBot.new("postit_ebooks") do |bot|
-  bot.access_token = "779221016216154113-gVi7meIrA582MoQB0R55moho4ij1dlh" # Token connecting the app to this account
-  bot.access_token_secret = "mdW5RtmZxlK07eCxHFk4d4XMh3SoyUvGaE3CBRHT419pq" # Secret connecting the app to this account
+  bot.access_token = ENV["TOKEN"] # Token connecting the app to this account
+  bot.access_token_secret = ENV["TOKEN_SECRET"] # Secret connecting the app to this account
 end

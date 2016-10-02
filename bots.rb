@@ -22,7 +22,7 @@ class MyBot < Ebooks::Bot
 
     model = Ebooks::Model.load("model/postitbreakup.model")
 
-    scheduler.cron '0 0 * * *' do
+    scheduler.cron '15 0,5,19 * * *' do
       new_tweet = model.make_statement(140)
       tweet(new_tweet)
       # Tweet something every 24 hours
